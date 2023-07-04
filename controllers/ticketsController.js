@@ -32,6 +32,17 @@ const getAll = async (req) => {
     return { err: error.message };
   }
 };
+const get = async (req) => {
+  try {
+    if (!req.isAuth) throw new Error("Please Login");
+    const ticketId = new mongoDb.ObjectId(req.params.ticketId)
+    const data = await Ticket.findOne({_id:ticketId})
+    return data;
+  } catch (error) {
+    console.log(error);
+    return { err: error.message };
+  }
+};
 const update = async (req) => {};
 
-module.exports = { add, getAll, update };
+module.exports = { add, getAll, update,get };

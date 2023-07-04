@@ -1,6 +1,6 @@
 const {Router} = require("express");
 
-const { add, getAll, update } = require("../controllers/todoController");
+const { add, getAll, update,get } = require("../controllers/todoController");
 
 const todoRouter = new Router();
 
@@ -31,5 +31,13 @@ todoRouter.put("/update", async (req,res) => {
         res.send({err: error.message})
     }
 })
-
+todoRouter.get("/todo/:todoId", async (req,res) => {
+    try {
+        const data = await get(req);
+        if(data.err) throw new Error(data.err);
+        res.send(data);
+    } catch (error) {
+        res.send({err: error.message})
+    }
+})
 module.exports =  todoRouter;

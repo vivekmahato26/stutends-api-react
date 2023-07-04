@@ -1,10 +1,10 @@
 const {Router} = require("express");
 
-const { add, getAll, update } = require("../controllers/attendanceController");
+const { add, getAll, update,get } = require("../controllers/attendanceController");
 
-const todoRouter = new Router();
+const attendanceRouter = new Router();
 
-todoRouter.post("/add", async (req,res) => {
+attendanceRouter.post("/add", async (req,res) => {
     try {
         const data = await add(req);
         if(data.err) throw new Error(data.err);
@@ -13,7 +13,7 @@ todoRouter.post("/add", async (req,res) => {
         res.send({err: error.message})
     }
 })
-todoRouter.get("/todo", async (req,res) => {
+attendanceRouter.get("/attendance", async (req,res) => {
     try {
         const data = await getAll(req);
         if(data.err) throw new Error(data.err);
@@ -22,7 +22,16 @@ todoRouter.get("/todo", async (req,res) => {
         res.send({err: error.message})
     }
 })
-todoRouter.put("/update", async (req,res) => {
+attendanceRouter.get("/attendance/:attendanceId", async (req,res) => {
+    try {
+        const data = await get(req);
+        if(data.err) throw new Error(data.err);
+        res.send(data);
+    } catch (error) {
+        res.send({err: error.message})
+    }
+})
+attendanceRouter.put("/update", async (req,res) => {
     try {
         const data = await update(req);
         if(data.err) throw new Error(data.err);
@@ -32,4 +41,4 @@ todoRouter.put("/update", async (req,res) => {
     }
 })
 
-module.exports =  todoRouter;
+module.exports =  attendanceRouter;

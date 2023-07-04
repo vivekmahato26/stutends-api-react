@@ -32,6 +32,18 @@ const getAll = async (req) => {
     return { err: error.message };
   }
 };
+
+const get = async (req) => {
+    try {
+      if (!req.isAuth) throw new Error("Please Login");
+      const todoId = new mongoDb.ObjectId(req.params.todoId)
+      const data = await Todo.findOne({_id:todoId})
+      return data;
+    } catch (error) {
+      console.log(error);
+      return { err: error.message };
+    }
+  };
 const update = async (req) => {};
 
-module.exports = { add, getAll, update };
+module.exports = { add, getAll, update,get };
